@@ -1,4 +1,4 @@
-from Paras import Para
+from .Paras import Para
 import numpy as np
 from torch import nn
 

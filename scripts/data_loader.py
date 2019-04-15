@@ -43,8 +43,9 @@ def torch_dataset_loader(dataset, batch_size, shuffle, kwargs):
     return loader
 
 
+train_loader = torch_dataset_loader(Para.TRAIN_DATA_PATH, Para.batch_size, True, Para.kwargs)
+
 if __name__ == '__main__':
-    train_loader = torch_dataset_loader(Para.TRAIN_DATA_PATH, Para.batch_size, True, Para.kwargs)
 
     for index, data_item in enumerate(train_loader):
         print(data_item['mel'].shape)

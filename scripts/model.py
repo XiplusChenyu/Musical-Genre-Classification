@@ -59,9 +59,9 @@ class Model(nn.Module):
         return out
 
 
-model = Model()
+M_model = Model()
 
 if __name__ == '__main__':
-    print(model)
+    print(M_model)
 
 
