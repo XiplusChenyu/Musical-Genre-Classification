@@ -1,4 +1,4 @@
-from .Paras import Para
+from Paras import Para
 import numpy as np
 from torch import nn
 
@@ -32,6 +32,6 @@ if __name__ == '__main__':
 
     for index, data_item in enumerate(train_loader):
         tag = data_item['tag']
-        print(bce_loss(tag, tag))
+        print(bce_loss(tag, tag), accuracy_function(tag, tag))
         break
 

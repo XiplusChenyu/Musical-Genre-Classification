@@ -43,14 +43,14 @@ class Model(nn.Module):
                                       nn.Dropout(0.5))
 
         self.output = nn.Sequential(nn.Linear(in_features=256, out_features=10),
-                                    nn.Softmax())
+                                    nn.Softmax(dim=1))
 
     def forward(self, inp):
 
         out = self.convBlock1(inp)
-        out = self.convBlock2(inp)
-        out = self.convBlock3(inp)
-        out = self.convBlock4(inp)
+        out = self.convBlock2(out)
+        out = self.convBlock3(out)
+        out = self.convBlock4(out)
 
         out = out.view(out.size()[0], -1)
         out = self.fcBlock1(out)

@@ -22,12 +22,12 @@ class TorchData(Dataset):
         return self.len
 
     def __getitem__(self, index):
-        mel = torch.from_numpy(self.mel[index].astype(np.float32))
+        mel = self.mel[index].astype(np.float32)
+        mel = np.reshape(mel, (1, mel.shape[0], mel.shape[1]))
+        mel = torch.from_numpy(mel)
         tag = torch.from_numpy(self.tag[index].astype(np.float32))
-
-        # reshape the label
-        mel = mel.transpose(0, 1)
         sample = {"mel": mel, "tag": tag}
+
         return sample
 
 
@@ -44,9 +44,13 @@ def torch_dataset_loader(dataset, batch_size, shuffle, kwargs):
 
 
 train_loader = torch_dataset_loader(Para.TRAIN_DATA_PATH, Para.batch_size, True, Para.kwargs)
+validation_loader = torch_dataset_loader(Para.VAL_DATA_PATH, Para.batch_size, False, Para.kwargs)
+test_loader = torch_dataset_loader(Para.TEST_DATA_PATH, Para.batch_size, False, Para.kwargs)
+
 
 if __name__ == '__main__':
 
     for index, data_item in enumerate(train_loader):
         print(data_item['mel'].shape)
         print(data_item['tag'].shape)
+        break
