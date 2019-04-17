@@ -6,10 +6,21 @@ class ParaSetting:
         self.batch_size = 16
         self.label_size = 10
         self.epoch_num = 20
+        self.sample_rate = 16000
         self.use_cuda = True
         self.cuda = torch.cuda.is_available() and self.use_cuda
         self.log_step = None
         self.dataset_len = None
+        self.dictionary = {0: 'pop',
+                           1: 'metal',
+                           2: 'disco',
+                           3: 'blues',
+                           4: 'reggae',
+                           5: 'classical',
+                           6: 'rock',
+                           7: 'hiphop',
+                           8: 'country',
+                           9: 'jazz'}
 
         self.TRAIN_DATA_PATH = '../datasets/train.h5'
         self.VAL_DATA_PATH = '../datasets/valid.h5'
