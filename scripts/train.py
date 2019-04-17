@@ -1,7 +1,7 @@
 import time
 import numpy as np
 
-from model import M_model
+from basic_model import M_model
 import torch
 from torch import optim
 from util import bce_loss, accuracy_function

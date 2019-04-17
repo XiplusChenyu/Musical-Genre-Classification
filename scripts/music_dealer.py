@@ -2,7 +2,7 @@ import librosa
 import torch
 import numpy as np
 
-from model import M_model
+from basic_model import M_model
 from Paras import Para
 
 
