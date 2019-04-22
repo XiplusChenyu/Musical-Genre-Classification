@@ -29,18 +29,18 @@ class GruModel(nn.Module):
 
         self.GruLayer = nn.GRU(input_size=2048,
                                hidden_size=256,
-                               num_layers=2,
+                               num_layers=1,
                                batch_first=True,
-                               bidirectional=True)
+                               bidirectional=False)
 
-        self.GruLayerF = nn.Sequential(nn.BatchNorm1d(4096),
-                                       nn.Dropout(0.3))
+        self.GruLayerF = nn.Sequential(nn.BatchNorm1d(2048),
+                                       nn.Dropout(0.6))
 
-        self.fcBlock1 = nn.Sequential(nn.Linear(in_features=4096, out_features=1024),
+        self.fcBlock1 = nn.Sequential(nn.Linear(in_features=2048, out_features=512),
                                       nn.ReLU(),
                                       nn.Dropout(0.5))
 
-        self.fcBlock2 = nn.Sequential(nn.Linear(in_features=1024, out_features=256),
+        self.fcBlock2 = nn.Sequential(nn.Linear(in_features=512, out_features=256),
                                       nn.ReLU(),
                                       nn.Dropout(0.5))
 
@@ -58,7 +58,6 @@ class GruModel(nn.Module):
         out = out.contiguous().view(out.size()[0], out.size()[2], -1)
         out, _ = self.GruLayer(out)
         out = out.contiguous().view(out.size()[0],  -1)
-        print(out.shape)
         # out_features=4096
 
         out = self.GruLayerF(out)
