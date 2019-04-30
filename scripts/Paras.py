@@ -3,7 +3,7 @@ import torch
 
 class ParaSetting:
     def __init__(self):
-        self.batch_size = 16
+        self.batch_size = 32
         self.label_size = 10
         self.epoch_num = 20
         self.sample_rate = 16000

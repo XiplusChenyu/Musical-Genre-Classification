@@ -101,19 +101,19 @@ class GruLongModel(nn.Module):
                                bidirectional=True)
 
         self.GruLayerF = nn.Sequential(nn.BatchNorm1d(8192),
-                                       nn.Dropout(0.6))
+                                       nn.Dropout(0.5))
 
         self.fcBlock1 = nn.Sequential(nn.Linear(in_features=8192, out_features=4096),
                                       nn.ReLU(),
-                                      nn.Dropout(0.5))
+                                      nn.Dropout(0.6))
 
         self.fcBlock2 = nn.Sequential(nn.Linear(in_features=4096, out_features=1024),
                                       nn.ReLU(),
-                                      nn.Dropout(0.5))
+                                      nn.Dropout(0.6))
 
         self.fcBlock3 = nn.Sequential(nn.Linear(in_features=1024, out_features=256),
                                       nn.ReLU(),
-                                      nn.Dropout(0.5))
+                                      nn.Dropout(0.6))
 
         self.output = nn.Sequential(nn.Linear(in_features=256, out_features=10),
                                     nn.Softmax(dim=1))
