@@ -42,20 +42,18 @@ def torch_dataset_loader(dataset, batch_size, shuffle, kwargs):
                         **kwargs)
     return loader
 
-
-train_loader = torch_dataset_loader(Para.TRAIN_DATA_PATH, Para.batch_size, True, Para.kwargs)
-validation_loader = torch_dataset_loader(Para.VAL_DATA_PATH, Para.batch_size, False, Para.kwargs)
-test_loader = torch_dataset_loader(Para.TEST_DATA_PATH, Para.batch_size, False, Para.kwargs)
-
-fin_train_loader = torch_dataset_loader(Para.A_TRAIN_DATA_PATH, Para.batch_size, True, Para.kwargs)
-fin_validation_loader = torch_dataset_loader(Para.A_VAL_DATA_PATH, Para.batch_size, False, Para.kwargs)
-fin_test_loader = torch_dataset_loader(Para.A_TEST_DATA_PATH, Para.batch_size, False, Para.kwargs)
-
-l_train_loader = torch_dataset_loader(Para.LA_TRAIN_DATA_PATH, Para.batch_size, True, Para.kwargs)
-l_validation_loader = torch_dataset_loader(Para.LA_VAL_DATA_PATH, Para.batch_size, False, Para.kwargs)
-l_test_loader = torch_dataset_loader(Para.LA_TEST_DATA_PATH, Para.batch_size, False, Para.kwargs)
-
 if __name__ == '__main__':
+    train_loader = torch_dataset_loader(Para.TRAIN_DATA_PATH, Para.batch_size, True, Para.kwargs)
+    validation_loader = torch_dataset_loader(Para.VAL_DATA_PATH, Para.batch_size, False, Para.kwargs)
+    test_loader = torch_dataset_loader(Para.TEST_DATA_PATH, Para.batch_size, False, Para.kwargs)
+
+    fin_train_loader = torch_dataset_loader(Para.A_TRAIN_DATA_PATH, Para.batch_size, True, Para.kwargs)
+    fin_validation_loader = torch_dataset_loader(Para.A_VAL_DATA_PATH, Para.batch_size, False, Para.kwargs)
+    fin_test_loader = torch_dataset_loader(Para.A_TEST_DATA_PATH, Para.batch_size, False, Para.kwargs)
+
+    l_train_loader = torch_dataset_loader(Para.LA_TRAIN_DATA_PATH, Para.batch_size, True, Para.kwargs)
+    l_validation_loader = torch_dataset_loader(Para.LA_VAL_DATA_PATH, Para.batch_size, False, Para.kwargs)
+    l_test_loader = torch_dataset_loader(Para.LA_TEST_DATA_PATH, Para.batch_size, False, Para.kwargs)
 
     for index, data_item in enumerate(fin_train_loader):
         print(data_item['mel'].shape)

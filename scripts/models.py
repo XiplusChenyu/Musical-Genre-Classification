@@ -122,7 +122,7 @@ class CrnnModel(nn.Module):
         out = self.output(out)
         return out
 
-
+    
 class CrnnLongModel(nn.Module):
     def __init__(self):
         super(CrnnLongModel, self).__init__()
@@ -147,26 +147,29 @@ class CrnnLongModel(nn.Module):
                                         nn.ReLU(),
                                         nn.MaxPool2d(kernel_size=4))
 
-        self.GruLayer = nn.GRU(input_size=4096,
+        cov4 = nn.Conv2d(in_channels=256, out_channels=512, kernel_size=3, stride=1, padding=1)
+        torch.nn.init.xavier_uniform_(cov4.weight)
+        self.convBlock4 = nn.Sequential(cov4,
+                                        nn.BatchNorm2d(512),
+                                        nn.ReLU(),
+                                        nn.MaxPool2d(kernel_size=4))
+
+        self.GruLayer = nn.GRU(input_size=2048,
                                hidden_size=256,
                                num_layers=1,
                                batch_first=True,
                                bidirectional=False)
 
-        self.GruLayerF = nn.Sequential(nn.BatchNorm1d(4096),
-                                       nn.Dropout(0.6))
+        self.GruLayerF = nn.Sequential(nn.BatchNorm1d(1024),
+                                       nn.Dropout(0.5))
 
-        self.fcBlock1 = nn.Sequential(nn.Linear(in_features=4096, out_features=2048),
+        self.fcBlock1 = nn.Sequential(nn.Linear(in_features=1024, out_features=512),
                                       nn.ReLU(),
-                                      nn.Dropout(0.6))
+                                      nn.Dropout(0.5))
 
-        self.fcBlock2 = nn.Sequential(nn.Linear(in_features=2048, out_features=512),
+        self.fcBlock2 = nn.Sequential(nn.Linear(in_features=512, out_features=256),
                                       nn.ReLU(),
-                                      nn.Dropout(0.6))
-
-        self.fcBlock3 = nn.Sequential(nn.Linear(in_features=512, out_features=256),
-                                      nn.ReLU(),
-                                      nn.Dropout(0.6))
+                                      nn.Dropout(0.5))
 
         self.output = nn.Sequential(nn.Linear(in_features=256, out_features=10),
                                     nn.Softmax(dim=1))
@@ -177,18 +180,19 @@ class CrnnLongModel(nn.Module):
         out = self.convBlock1(inp)
         out = self.convBlock2(out)
         out = self.convBlock3(out)
+        out = self.convBlock4(out)
         # [16, 256, 16, 16]
 
         out = out.contiguous().view(out.size()[0], out.size()[2], -1)
         out, _ = self.GruLayer(out)
         out = out.contiguous().view(out.size()[0],  -1)
-        # out_features=4096
-
+        
         out = self.GruLayerF(out)
         out = self.fcBlock1(out)
         out = self.fcBlock2(out)
-        out = self.fcBlock3(out)
+
         out = self.output(out)
+        
         return out
 
 
