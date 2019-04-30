@@ -1,8 +1,6 @@
 import librosa
 import torch
 import numpy as np
-
-from basic_model import M_model
 from Paras import Para
 
 
@@ -43,11 +41,3 @@ class MusicDealer:
             if current_score == 0:
                 break
             print('Genre {0}: {1}%'.format(current_genre, round(current_score, 2)))
-
-
-if __name__ == '__main__':
-    WEIGHT_PATH = "../model/best_model_1.pt"
-    TEST_FILE = "../sample_music/Kendrick Lamar - HUMBLE..mp3"
-
-    dealer = MusicDealer(WEIGHT_PATH, M_model)
-    dealer.get_genre(TEST_FILE)

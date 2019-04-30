@@ -3,9 +3,9 @@ import torch
 
 class ParaSetting:
     def __init__(self):
-        self.batch_size = 16
+        self.batch_size = None
         self.label_size = 10
-        self.epoch_num = 20
+        self.epoch_num = None
         self.sample_rate = 16000
         self.use_cuda = True
         self.cuda = torch.cuda.is_available() and self.use_cuda
