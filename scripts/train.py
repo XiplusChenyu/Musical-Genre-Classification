@@ -1,22 +1,13 @@
 import time
 import numpy as np
-
-from basic_model import M_model
 import torch
+import json
 from torch import optim
 from util import bce_loss, accuracy_function
 from Paras import Para
 
-from data_loader import train_loader, validation_loader, test_loader
 
-Para.dataset_len = len(train_loader)
-Para.log_step = len(train_loader) // 4
-
-optimizer = torch.optim.RMSprop(M_model.parameters(), lr=1e-4)
-scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.5)
-
-
-def train(model, epoch, versatile=True):
+def train(model, epoch, train_loader, optimizer, versatile=True):
     start_time = time.time()
     model = model.train()
     train_loss = 0.
@@ -63,12 +54,12 @@ def train(model, epoch, versatile=True):
     return train_loss, accuracy
 
 
-def validate_test(model, epoch, test=False):
+def validate_test(model, epoch, use_loader):
     start_time = time.time()
     model = model.eval()
     v_loss = 0.
     accuracy = 0.
-    data_loader_use = validation_loader if not test else test_loader
+    data_loader_use = use_loader
     _index = 0
     for _index, data in enumerate(data_loader_use):
         spec_input, target = data['mel'], data['tag']
@@ -98,16 +89,19 @@ def validate_test(model, epoch, test=False):
     return v_loss, accuracy
 
 
-if __name__ == '__main__':
+def main_train(model, train_loader, valid_loader, log_name, save_name, lr=Para.learning_rate, epoch_num=Para.epoch_num):
+    Para.dataset_len = len(train_loader)
+    Para.log_step = len(train_loader) // 4
+    optimizer = torch.optim.RMSprop(model.parameters(), lr=lr)
+    scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.5)
     t_loss, t_accu, v_loss, v_accu = [], [], [], []
+
     decay_cnt = 0
-
-    for epoch in range(1, Para.epoch_num + 1):
+    for epoch in range(1,  epoch_num + 1):
         if Para.cuda:
-            M_model.cuda()
-
-        train_loss, train_accuracy = train(M_model, epoch)
-        validation_loss, validation_accuracy = validate_test(M_model, epoch, test=False)
+            model.cuda()
+        train_loss, train_accuracy = train(model, epoch, train_loader, optimizer)
+        validation_loss, validation_accuracy = validate_test(model, epoch, use_loader=valid_loader)
 
         t_loss.append(train_loss)
         t_accu.append(train_accuracy)
@@ -119,8 +113,8 @@ if __name__ == '__main__':
         if np.max(t_accu) == t_accu[-1]:
             print('***Found Best Training Model***')
         if np.max(v_accu) == v_accu[-1]:
-            with open(Para.MODEL_SAVE_PATH_1, 'wb') as f:
-                torch.save(M_model.cpu().state_dict(), f)
+            with open(Para.MODEL_SAVE_FOlD + save_name, 'wb') as f:
+                torch.save(model.cpu().state_dict(), f)
                 print('***Best Validation Model Found and Saved***')
 
         print('-' * 99)
@@ -133,3 +127,15 @@ if __name__ == '__main__':
             decay_cnt = 0
             print('***Learning rate decreased***')
             print('-' * 99)
+
+    build_dict = {
+        "train_loss": t_loss,
+        "train_accu": t_accu,
+        "valid_loss": v_loss,
+        "valid_accu": v_accu,
+    }
+
+    with open(Para.LOG_SAVE_FOLD + log_name, 'w+') as lf:
+        json.dump(build_dict, lf)
+
+    return build_dict
