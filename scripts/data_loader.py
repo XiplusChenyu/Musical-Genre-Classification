@@ -47,10 +47,13 @@ train_loader = torch_dataset_loader(Para.TRAIN_DATA_PATH, Para.batch_size, True,
 validation_loader = torch_dataset_loader(Para.VAL_DATA_PATH, Para.batch_size, False, Para.kwargs)
 test_loader = torch_dataset_loader(Para.TEST_DATA_PATH, Para.batch_size, False, Para.kwargs)
 
+fin_train_loader = torch_dataset_loader(Para.A_TRAIN_DATA_PATH, Para.batch_size, True, Para.kwargs)
+fin_validation_loader = torch_dataset_loader(Para.A_VAL_DATA_PATH, Para.batch_size, False, Para.kwargs)
+fin_test_loader = torch_dataset_loader(Para.A_TEST_DATA_PATH, Para.batch_size, False, Para.kwargs)
 
 if __name__ == '__main__':
 
-    for index, data_item in enumerate(train_loader):
+    for index, data_item in enumerate(fin_train_loader):
         print(data_item['mel'].shape)
         print(data_item['tag'].shape)
         break

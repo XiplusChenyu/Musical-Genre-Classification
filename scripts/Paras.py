@@ -25,8 +25,16 @@ class ParaSetting:
         self.TRAIN_DATA_PATH = '../datasets/train.h5'
         self.VAL_DATA_PATH = '../datasets/valid.h5'
         self.TEST_DATA_PATH = '../datasets/test.h5'
+
+        self.A_TRAIN_DATA_PATH = '../datasets/fin_train.h5'
+        self.A_VAL_DATA_PATH = '../datasets/fin_valid.h5'
+        self.A_TEST_DATA_PATH = '../datasets/fin_test.h5'
+
         self.MODEL_SAVE_PATH_1 = '../model/best_model_1.pt'
         self.MODEL_SAVE_PATH_2 = '../model/best_model_2.pt'
+
+        self.MODEL_SAVE_PATH_1A = '../model/best_model_1a.pt'
+        self.MODEL_SAVE_PATH_2A = '../model/best_model_2a.pt'
 
         if self.cuda:
             self.kwargs = {'num_workers': 1, 'pin_memory': True}
