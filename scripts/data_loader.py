@@ -51,6 +51,10 @@ fin_train_loader = torch_dataset_loader(Para.A_TRAIN_DATA_PATH, Para.batch_size,
 fin_validation_loader = torch_dataset_loader(Para.A_VAL_DATA_PATH, Para.batch_size, False, Para.kwargs)
 fin_test_loader = torch_dataset_loader(Para.A_TEST_DATA_PATH, Para.batch_size, False, Para.kwargs)
 
+l_train_loader = torch_dataset_loader(Para.LA_TRAIN_DATA_PATH, Para.batch_size, True, Para.kwargs)
+l_validation_loader = torch_dataset_loader(Para.LA_VAL_DATA_PATH, Para.batch_size, False, Para.kwargs)
+l_test_loader = torch_dataset_loader(Para.LA_TEST_DATA_PATH, Para.batch_size, False, Para.kwargs)
+
 if __name__ == '__main__':
 
     for index, data_item in enumerate(fin_train_loader):
