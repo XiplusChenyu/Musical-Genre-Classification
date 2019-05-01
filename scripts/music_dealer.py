@@ -9,7 +9,8 @@ class MusicDealer:
         self.model = model
         self.index = size
         self.remove = 15  # remove the first and last 15 s
-        model.load_state_dict(torch.load(weight_path, map_location='cpu'))
+        self.model.load_state_dict(torch.load(weight_path, map_location='cpu'))
+        self.model = model.eval()
 
     def audio_loader(self, audio_path):
         y, _ = librosa.load(audio_path, mono=True, sr=Para.sample_rate)
@@ -30,9 +31,10 @@ class MusicDealer:
             tag_list[idx] = 0
 
         for i, data in enumerate(self.audio_loader(audio_path)):
-            data = torch.FloatTensor(data).view(1, 1, self.index, self.index)  # resize to fit it in model
-            predict = self.model(data)
-            score, tag = predict.max(1)
+            with torch.no_grad():
+                data = torch.FloatTensor(data).view(1, 1, self.index, self.index)  # resize to fit it in model
+                predict = self.model(data)
+                score, tag = predict.max(1)
             tag_list[int(tag)] = tag_list.get(int(tag)) + float(score)
 
         _sum = sum([tag_list.get(key) for key in tag_list])

@@ -21,6 +21,16 @@ class ParaSetting:
                            7: 'hiphop',
                            8: 'country',
                            9: 'jazz'}
+        self.r_dictionary = {'pop': 0,
+                             'metal': 1,
+                             'disco': 2,
+                             'blues': 3,
+                             'reggae': 4,
+                             'classical': 5,
+                             'rock': 6,
+                             'hiphop': 7,
+                             'country': 8,
+                             'jazz': 9}
 
         # On pure GTZAN dataset
         self.TRAIN_DATA_PATH = '../datasets/train.h5'
