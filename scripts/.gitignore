@@ -1,2 +1,5 @@
-
+.ipynb_checkpoints/
 reference.py
+.idea/
+__pycache__/
+.DS_Store
