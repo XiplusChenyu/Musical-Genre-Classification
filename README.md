@@ -27,30 +27,19 @@ We offers three pre-processed datasets, you can also generate datasets using **B
 ### Training
 - Define Parameters in Paras.py
 - Use train.py for training
+- Training Logs saved in log fold (loss/accuracy vs epoch on train set and validation set)
 
 ### Test
-Use music_dealer.py to predict the genre components of full song
+- Use music_dealer.py to predict the genre components of full song, see **genre_predictor.ipynb** and **music_dealer.py** for details
+- Test result saved in log fold
 
 ## Result
-- Model: Pure CNN Model
-- Precise: 
-  - Accuracy: 86.17%
-- Sample prediction:
+### Test on frames
+All models are over 80% on test set, see report for details
+
+### Test on full songs
+30 songs are used for test, Samples:
 ```
-Test on Kendrick Lamar - HUMBLE..mp3
-Genre hiphop: 58.09%
-Genre pop: 31.78%
-Genre disco: 4.6%
-Genre reggae: 2.94%
-Genre blues: 2.6%
-***************************************************************************************************
-Test on Jackson Wang- Papillon.mp3
-Genre pop: 60.93%
-Genre reggae: 19.63%
-Genre hiphop: 16.87%
-Genre blues: 1.29%
-Genre disco: 1.28%
-***************************************************************************************************
 Test on Adele - Hello.mp3
 Genre pop: 61.9%
 Genre blues: 19.15%
@@ -59,3 +48,6 @@ Genre reggae: 3.87%
 Genre hiphop: 2.67%
 Genre metal: 0.7%
 ```
+
+# Thanks:
+- https://www.mp3juices.cc/ for music download
