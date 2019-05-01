@@ -49,3 +49,16 @@ class MusicDealer:
                 break
             print('Genre {0}: {1}%'.format(current_genre, round(current_score, 2)))
         return idx_list[0], idx_list[1], idx_list[2], tmp
+
+
+if __name__ == '__main__':
+    from models import CnnModel, CrnnLongModel, CrnnModel
+
+    path1 = 'mayday/如烟.mp3'
+    path2 = 'mayday/转眼.mp3'
+
+    WEIGHT_PATH = "../model/"
+    dealer = MusicDealer(WEIGHT_PATH + "CrnnLongModel.pt", CrnnLongModel(), 256)
+
+    dealer.get_genre(path1)
+    dealer.get_genre(path2)

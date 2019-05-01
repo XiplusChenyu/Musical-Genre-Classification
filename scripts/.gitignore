@@ -3,3 +3,4 @@ reference.py
 .idea/
 __pycache__/
 .DS_Store
+mayday/

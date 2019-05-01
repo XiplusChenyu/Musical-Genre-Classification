@@ -6,4 +6,5 @@ sample_music/
 backup/
 __MACOSX/
 .idea/
-__MACOSX/
+.DS_Store
+
