@@ -122,7 +122,7 @@ class CrnnModel(nn.Module):
         out = self.output(out)
         return out
 
-    
+
 class CrnnLongModel(nn.Module):
     def __init__(self):
         super(CrnnLongModel, self).__init__()
@@ -185,22 +185,24 @@ class CrnnLongModel(nn.Module):
 
         out = out.contiguous().view(out.size()[0], out.size()[2], -1)
         out, _ = self.GruLayer(out)
-        out = out.contiguous().view(out.size()[0],  -1)
-        
+        out = out.contiguous().view(out.size()[0], -1)
+
         out = self.GruLayerF(out)
         out = self.fcBlock1(out)
         out = self.fcBlock2(out)
 
         out = self.output(out)
-        
+
         return out
 
 if __name__ == '__main__':
     TestModel = CrnnLongModel()
     from Paras import Para
     Para.batch_size = 32
-    from data_loader import l_test_loader
-    for index, data in enumerate(l_test_loader):
+    from data_loader import torch_dataset_loader
+    test_loader = torch_dataset_loader(Para.LA_TEST_DATA_PATH, Para.batch_size, False, Para.kwargs)
+
+    for index, data in enumerate(test_loader):
         spec_input, target = data['mel'], data['tag']
 
         TestModel.eval()
