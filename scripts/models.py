@@ -195,8 +195,29 @@ class CrnnLongModel(nn.Module):
 
         return out
 
+
+class RnnModel(nn.Module):
+    def __init__(self):
+        super(RnnModel, self).__init__()
+
+        self.GruLayer = nn.GRU(input_size=256,
+                               hidden_size=1024,
+                               num_layers=2,
+                               batch_first=True,
+                               bidirectional=True)
+
+    def forward(self, inp):
+        # _input (batch_size, 1, time, freq)
+        inp = inp.contiguous().view(inp.size()[0], inp.size()[2], -1)
+
+        out, _ = self.GruLayer(inp)
+        print(out.shape)
+
+        return out
+
+
 if __name__ == '__main__':
-    TestModel = CrnnLongModel()
+    TestModel = RnnModel()
     from Paras import Para
     Para.batch_size = 32
     from data_loader import torch_dataset_loader
