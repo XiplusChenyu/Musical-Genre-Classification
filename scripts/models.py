@@ -204,15 +204,70 @@ class RnnModel(nn.Module):
                                hidden_size=1024,
                                num_layers=2,
                                batch_first=True,
-                               bidirectional=True)
+                               bidirectional=False)
+
+        cov1 = nn.Conv2d(in_channels=1, out_channels=32, kernel_size=3, stride=1, padding=1)
+        torch.nn.init.xavier_uniform_(cov1.weight)
+        self.convBlock1 = nn.Sequential(cov1,
+                                        nn.BatchNorm2d(32),
+                                        nn.ReLU(),
+                                        nn.MaxPool2d(kernel_size=2))
+
+        cov2 = nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, stride=1, padding=1)
+        torch.nn.init.xavier_uniform_(cov2.weight)
+        self.convBlock2 = nn.Sequential(cov2,
+                                        nn.BatchNorm2d(64),
+                                        nn.ReLU(),
+                                        nn.MaxPool2d(kernel_size=2))
+
+        cov3 = nn.Conv2d(in_channels=64, out_channels=128, kernel_size=5, stride=1, padding=1)
+        torch.nn.init.xavier_uniform_(cov3.weight)
+        self.convBlock3 = nn.Sequential(cov3,
+                                        nn.BatchNorm2d(128),
+                                        nn.ReLU(),
+                                        nn.MaxPool2d(kernel_size=4))
+
+        cov4 = nn.Conv2d(in_channels=128, out_channels=256, kernel_size=3, stride=1, padding=1)
+        torch.nn.init.xavier_uniform_(cov4.weight)
+        self.convBlock4 = nn.Sequential(cov4,
+                                        nn.BatchNorm2d(256),
+                                        nn.ReLU(),
+                                        nn.MaxPool2d(kernel_size=4))
+
+        self.fcBlock1 = nn.Sequential(nn.Linear(in_features=11520, out_features=4096),
+                                      nn.ReLU(),
+                                      nn.Dropout(0.5))
+
+        self.fcBlock2 = nn.Sequential(nn.Linear(in_features=4096, out_features=2048),
+                                      nn.ReLU(),
+                                      nn.Dropout(0.5))
+
+        self.fcBlock3 = nn.Sequential(nn.Linear(in_features=2048, out_features=1024),
+                                      nn.ReLU(),
+                                      nn.Dropout(0.5))
+
+        self.fcBlock4 = nn.Sequential(nn.Linear(in_features=1024, out_features=256),
+                                      nn.ReLU(),
+                                      nn.Dropout(0.5))
+
+        self.output = nn.Sequential(nn.Linear(in_features=256, out_features=10),
+                                    nn.Softmax(dim=1))
 
     def forward(self, inp):
         # _input (batch_size, 1, time, freq)
         inp = inp.contiguous().view(inp.size()[0], inp.size()[2], -1)
-
         out, _ = self.GruLayer(inp)
-        print(out.shape)
-
+        out = out.contiguous().view(out.size()[0], 1, out.size()[1], out.size()[2])
+        out = self.convBlock1(out)
+        out = self.convBlock2(out)
+        out = self.convBlock3(out)
+        out = self.convBlock4(out)
+        out = out.contiguous().view(out.size()[0], -1)
+        out = self.fcBlock1(out)
+        out = self.fcBlock2(out)
+        out = self.fcBlock3(out)
+        out = self.fcBlock4(out)
+        out = self.output(out)
         return out
 
 
