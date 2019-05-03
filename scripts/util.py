@@ -20,6 +20,18 @@ def accuracy_function(output, target):
     return accuracy
 
 
+def matrix_tuple(output, target):
+    f_output = output.cpu() if Para.cuda else output.clone()
+    f_target = target.cpu() if Para.cuda else target.clone()
+
+    output_res = f_output.detach().numpy()
+    target_res = f_target.detach().numpy()
+    predicted_index = np.argmax(output_res, axis=1)
+    target_index = np.argmax(target_res, axis=1)
+    result_list = [(predicted_index[i], target_index[i]) for i in range(len(predicted_index))]
+    return result_list
+
+
 def bce_loss(output, target):
     loss_mlp = nn.BCELoss()
     loss = loss_mlp(output, target)
