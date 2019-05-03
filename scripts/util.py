@@ -28,7 +28,7 @@ def matrix_tuple(output, target):
     target_res = f_target.detach().numpy()
     predicted_index = np.argmax(output_res, axis=1)
     target_index = np.argmax(target_res, axis=1)
-    result_list = [(predicted_index[i], target_index[i]) for i in range(len(predicted_index))]
+    result_list = [[int(predicted_index[i]), int(target_index[i])] for i in range(len(predicted_index))]
     return result_list
 
 
