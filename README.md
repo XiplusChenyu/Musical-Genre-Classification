@@ -1,5 +1,5 @@
 # Musical Genre Classification
-Three Models for Musical Genre Classification are discussed, one CNN model and two CRNN models. This project is based on Pytorch.
+Three Models for Musical Genre Classification are discussed, one CNN model and two CRNN models. This project is based on Pytorch. <a href="https://github.com/XiplusChenyu/Musical-Genre-Classification/blob/master/music_genre_classification.pdf">Project report here.</a>
 
 ## Get Start:
 ### Audio Files
@@ -18,7 +18,7 @@ Three Models for Musical Genre Classification are discussed, one CNN model and t
  9: 'jazz'}
 ```
 
-### Mel-Spectrogram Datasets
+### Log Mel-Spectrogram Datasets
 We offers three pre-processed datasets, you can also generate datasets using **Build Dataset Handmade.ipynb** or **Build Dataset.ipynb**. <a href='https://drive.google.com/file/d/1X3amA5n6RjYoY5QHdFfYOFfh9w3zbEU4/view?usp=sharing'>Download Here</a>
 - Pure GTZAN Dataset (128^2 Chunks, 7000 in total)
 - Mixed DatasetI (128^2 Chunks, 12370 in total)
@@ -35,19 +35,37 @@ We offers three pre-processed datasets, you can also generate datasets using **B
 
 ## Result
 ### Test on frames
-All models are over 80% on test set, see report for details
+- Accuracy
+<table>
+  <tr>
+    <th></th>
+    <th>CNN Model</th>
+    <th>CRNN-I Model</th>
+    <th>CRNN-II Model</th>
+  </tr>
+  <tr>
+    <td>Test Set</td>
+    <td>88.05%</td>
+    <td>85.08%</td>
+    <td>88.45%</td>
+  </tr>
+  <tr>
+    <td>Validation Set</td>
+    <td>86.89%</td>
+    <td>83.05%</td>
+    <td>82.67%</td>
+  </tr>
+</table>
+
+- Confusion Matrix
+
+<img src='https://github.com/XiplusChenyu/Musical-Genre-Classification/blob/master/pictures/matrix.png' width=500>
 
 ### Test on full songs
 30 songs are used for test, Samples:
-```
-Test on Adele - Hello.mp3
-Genre pop: 61.9%
-Genre blues: 19.15%
-Genre country: 11.72%
-Genre reggae: 3.87%
-Genre hiphop: 2.67%
-Genre metal: 0.7%
-```
+
+<img src='https://github.com/XiplusChenyu/Musical-Genre-Classification/blob/master/pictures/sample%20prediction.png' width=250>
 
 # Thanks:
 - https://www.mp3juices.cc/ for music download
+- https://github.com/cetinsamet/music-genre-classification
