@@ -46,6 +46,7 @@ class CnnModel(nn.Module):
                                     nn.Softmax(dim=1))
 
     def forward(self, inp):
+        print(inp.shape)
 
         out = self.convBlock1(inp)
         out = self.convBlock2(out)
@@ -272,7 +273,7 @@ class RnnModel(nn.Module):
 
 
 if __name__ == '__main__':
-    TestModel = RnnModel()
+    TestModel = CnnModel()
     from Paras import Para
     Para.batch_size = 32
     from data_loader import torch_dataset_loader
